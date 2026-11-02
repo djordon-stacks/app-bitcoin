@@ -423,3 +423,41 @@ def test_invalid_tapminiscript(navigator: Navigator, firmware: Firmware, client:
                          f"{core_xpub_orig2}",
                          f"{core_xpub_orig3}",
                      ])
+
+
+@pytest.mark.timeout(0)  # disable timeout
+def test_e2e_tapscript_20keys(navigator: Navigator, firmware: Firmware, client: RaggerClient,
+                              test_name: str, rpc, rpc_test_wallet, speculos_globals:
+                              SpeculosGlobals, enable_slow_tests: int):
+    # Largest supported number of keys in a wallet policy: a 16-key sortedmulti_a, the largest
+    # supported multisig, in one leaf, and the remaining keys in a second leaf.
+
+    # slow test, only run it if --enable_slow_tests is set to a value greater than 0
+    if enable_slow_tests < 1:
+        pytest.skip()
+
+    keys_info = []
+    core_wallet_name = None
+    for i in range(20 - 1):
+        core_wallet_name_i, core_xpub_orig = create_new_wallet()
+        if i == 2:
+            # sign with bitcoin-core using key @2, in the 16-key leaf
+            core_wallet_name = core_wallet_name_i
+        keys_info.append(core_xpub_orig)
+
+    path = "499'/1'/0'"
+    internal_xpub = get_internal_xpub(speculos_globals.seed, path)
+
+    # the internal key is key @1, in the 16-key leaf
+    keys_info.insert(1, f"[{speculos_globals.master_key_fingerprint.hex()}/{path}]{internal_xpub}")
+
+    leaf_keys = ",".join(f"@{i}/**" for i in range(1, 17))
+    wallet_policy = WalletPolicy(
+        name="Twenty keys",
+        descriptor_template=f"tr(@0/**,{{sortedmulti_a(2,{leaf_keys}),multi_a(2,@17/**,@18/**,@19/**)}})",
+        keys_info=keys_info)
+
+    assert wallet_policy.n_keys == 20
+
+    run_test_e2e(navigator, client, wallet_policy, [core_wallet_name], rpc, rpc_test_wallet, speculos_globals,
+                 e2e_register_wallet_instruction(firmware, wallet_policy.n_keys), e2e_sign_psbt_instruction(firmware), test_name)
