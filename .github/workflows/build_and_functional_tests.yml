@@ -49,8 +49,10 @@ jobs:
     with:
       download_app_binaries_artifact: "compiled_app_binaries"
       container_image: "ghcr.io/ledgerhq/app-bitcoin/speculos-bitcoin:latest"
-      # when merging a PR, we run the tests with the --enable_slow_tests parameter
-      test_options: ${{ github.event_name == 'push' && '--enable_slow_tests' || '' }}
+      # # when merging a PR, we run the tests with the --enable_slow_tests parameter
+      # test_options: ${{ github.event_name == 'push' && '--enable_slow_tests' || '' }}
+      # TEMPORARY, fork only: run the slow tests on every event, so the 20-key test runs on PRs
+      test_options: '--enable_slow_tests'
       regenerate_snapshots: ${{ github.event_name == 'workflow_dispatch' && inputs.golden_run == 'Open a PR' }}
       also_delete_snapshots: ${{ github.event_name == 'workflow_dispatch' && inputs.golden_run == 'Open a PR' && inputs.delete_obsolete_snapshots }}
       post_stack_consumption: true
