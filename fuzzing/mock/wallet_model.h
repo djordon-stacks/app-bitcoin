@@ -5,11 +5,11 @@
 
 #include "mock_dispatcher.h"
 
-/* Match the app, do not mirror a smaller bound: MAX_N_KEYS_IN_WALLET_POLICY is 15
+/* Match the app, do not mirror a smaller bound: MAX_N_KEYS_IN_WALLET_POLICY is 20
  * and a serialized header allows 252, so a builder capped at 6 could never test the
  * limit. The descriptor cap is deliberately above the app's
  * MAX_DESCRIPTOR_TEMPLATE_LENGTH_V2 (512) so the over-length rejection is reachable. */
-#define WM_MAX_KEYS 16
+#define WM_MAX_KEYS 21
 #define WM_MAX_DESCRIPTOR_LEN 600
 
 typedef struct {

@@ -361,8 +361,8 @@ error = "INCORRECT_DATA"
 
 [[case]]
 name = "too_many_keys"
-description = "16 key expressions exceed the maximum (15) supported in a wallet policy"
-descriptor_template = "wsh(multi(1,@0/**,@1/**,@2/**,@3/**,@4/**,@5/**,@6/**,@7/**,@8/**,@9/**,@10/**,@11/**,@12/**,@13/**,@14/**,@15/**))"
+description = "21 keys exceed the maximum (20) supported in a wallet policy"
+descriptor_template = "tr(@0/**,{multi_a(1,@1/**,@2/**,@3/**,@4/**,@5/**,@6/**,@7/**,@8/**,@9/**,@10/**,@11/**,@12/**,@13/**,@14/**,@15/**,@16/**),multi_a(1,@17/**,@18/**,@19/**,@20/**)})"
 keys_info = [
     "[f5acc2fd/48'/1'/0'/2']tpubDFAqEGNyad35aBCKUAXbQGDjdVhNueno5ZZVEn3sQbW5ci457gLR7HyTmHBg93oourBssgUxuWz1jX5uhc1qaqFo9VsybY1J5FuedLfm4dK",
     "tpubDD814oESVM3uG2yZZDnJDex6gLeeahu2cmK2AL26ozTtDouQCY4NA8xcTW5oiJLp1cydFtDPdWxWDpLPGyLo6sGbemykJm4ocjjvt5cwvtv",
@@ -380,6 +380,11 @@ keys_info = [
     "tpubDDXidKmnHQnn7XNBfV6ngDqyporatWXdUGSayXBTm1WQwQGrtcPb38zaZGo3y3K6KnD37dAnU66JWcLEY53F8zRKeBT7J5Y27ER5TTcDhr6",
     "tpubDCyakepujvAQzi2S6eVYrC6ky5mBfHe3xE4fxj3FaT4Nt7TvmGW7w22kJ5EF4XR33oLc2PAGveNymx8tubaSZ4wA6ja7cnE3t4maND5ehep",
     "tpubDDExGXv7gGXC7aXxQoajPixpn6o5BPLPYL3DFouZd3GmNwSi8cKBLn51y6Deh2jHcCDB88e4R51oqn5iK9pvsyUKV6BPieMCbCn8Qzd6GPs",
+    "tpubDDz8X43hSoxd6FReE5dbLu9Eqre6koiSvaD7XG6hzV89BqfwB8QNreqedUZd6UMgLHhPyJrXMU7DxPBaRoQB1Zq36XdoT4XWdtYuDhmkJYK",
+    "tpubDF4fxhAjSv23xxYmq3NSvPosvVM8m63DZRq7P79GRhWq2WBr4HH3dVAincpfTvFKzvAoXfcRdwfJTz6HVgGzRmT3Ek68mLy2chgtxeu3XX5",
+    "tpubDEMsyv8aLqNBg9LqjtD5rw7B1TYz2DvqDR5fVZokmrGV7bGo6WQcGRiUNGhnLTwjzM2rFYtavP7gyrFNZVwdkfUSm9mMjb2W93icRS9PybJ",
+    "tpubDE7ewYm3tREhi8YjbAh3jB19hSC7EVPVPUHtq2bTxpbEPyFYpErJMpZCrZFHRgurYGUBp9URgHXaeB5RyYEsuq516gmoLUDoQRcEfk1VG3c",
+    "tpubDEBa3N62ExePktqBBmaAZ4rgJa2n6Ta1K5e8oUe3V5njoTPsZcVDTcbgzp4x8ZNGgKv4xWrxUMaGKBrjQYqa9yg1Vv4a2HqM9rAhHkwtxV8",
 ]
 wallet_name = "Too many keys"
 error = "NOT_SUPPORTED"
