@@ -231,3 +231,36 @@ def test_e2e_multisig_15keys(navigator: Navigator, firmware: Firmware, client: R
              rpc, rpc_test_wallet, speculos_globals,
              e2e_register_wallet_instruction(firmware, wallet_policy.n_keys),
              e2e_sign_psbt_instruction(firmware), test_name)
+
+
+@pytest.mark.timeout(0)  # disable timeout
+def test_e2e_multisig_16keys(navigator: Navigator, firmware: Firmware, client: RaggerClient, test_name: str, rpc: AuthServiceProxy, rpc_test_wallet, speculos_globals: SpeculosGlobals, enable_slow_tests: int):
+    # Largest supported quorum in a multisig: MAX_PUBKEYS_PER_MULTISIG keys.
+
+    # slow test, only run it if --enable_slow_tests is set to a value greater than 0
+    if enable_slow_tests < 1:
+        pytest.skip()
+
+    core_wallet_names: List[str] = []
+    core_xpub_origs: List[str] = []
+    for _ in range(15):
+        name, xpub_orig = create_new_wallet()
+        core_wallet_names.append(name)
+        core_xpub_origs.append(xpub_orig)
+
+    path = "48'/1'/0'/2'"
+    internal_xpub = get_internal_xpub(speculos_globals.seed, path)
+
+    wallet_policy = MultisigWallet(
+        name="Cold storage",
+        address_type=AddressType.WIT,
+        threshold=2,
+        sorted=True,
+        keys_info=core_xpub_origs +
+        [f"[{speculos_globals.master_key_fingerprint.hex()}/{path}]{internal_xpub}"],
+    )
+
+    run_test(navigator, client, wallet_policy, core_wallet_names,
+             rpc, rpc_test_wallet, speculos_globals,
+             e2e_register_wallet_instruction(firmware, wallet_policy.n_keys),
+             e2e_sign_psbt_instruction(firmware), test_name)
